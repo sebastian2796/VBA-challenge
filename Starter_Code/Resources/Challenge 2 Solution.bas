@@ -1,4 +1,3 @@
-Attribute VB_Name = "Module1"
 Sub StockAnalysis()
 'declare variables
 Dim Qchange As Double
@@ -8,6 +7,12 @@ Dim i As Long
 Dim Lastrow As Long
 Dim j As Integer
 Dim Start As Long
+Dim openingPrice As Double
+Dim closingPrice As Double
+Dim maxQuarterlyChange As Double
+Dim minQuarterlyChange As Double
+Dim maxPercentChange As Double
+Dim minPercentChange As Double
 
 'set column headers
 Range("I1").Value = "Ticker"
@@ -58,10 +63,35 @@ Totalvolume = Totalvolume + Cells(i, 7).Value
 
 End If
 
+Next i
+
+For i = 2 To Lastrow
+openingPrice = Cells(i, 3).Value
+closingPrice = Cells(i, 6).Value
+
+Qchange = closingPrice - openingPrice
+If openingPrice <> 0 Then
+Pchange = (Qchange / openingPrice) * 100
+Else
+Pchange = 0
+End If
+
+Cells(i, 10).Value = Qchange
+Cells(i, 11).Value = Pchange
+
+If Qchange > 0 Then
+Cells(i, 10).Interior.ColorIndex = 4
+ElseIf Qchange < 0 Then
+Cells(i, 10).Interior.ColorIndex = 3
+End If
+
+If Pchange > 0 Then
+Cells(i, 11).Interior.ColorIndex = 4
+ElseIf Pchange < 0 Then
+Cells(i, 11).Interior.ColorIndex = 3
+End If
 
 Next i
-'end for loop
-
 'find max and min of values
-
+    
 End Sub
